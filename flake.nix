@@ -29,6 +29,17 @@
                     hash = "sha256-zq7r53UUQ3kAXbiTm5ZHWG+xtjEBg07oiuQeZ9UG4Ds=";
                   };
                 }));
+
+                amaranth-boards = (python-prev.amaranth-boards.overrideAttrs (o: {
+                  version = "unstable-2023-12-13";
+
+                  src = final.fetchFromGitHub {
+                    owner = "amaranth-lang";
+                    repo = "amaranth-boards";
+                    rev = "170675812b71ee722bcf8ccdb88409a9ad97ffe2";
+                    hash = "sha256-9ZyzD4hOGW2sG24ISNwYBY6NiDe5q0rwDeMdYtzjwDA=";
+                  };
+                }));
               })
             ];
           })
@@ -47,9 +58,11 @@
       buildInputs = [
         (pkgs.python3.withPackages (p: with p; [
           amaranth
+          amaranth-boards
         ]))
 
         pkgs.yosys
+        pkgs.nextpnr
         pkgs.icestorm
 
         pleaseKeepMyInputs
