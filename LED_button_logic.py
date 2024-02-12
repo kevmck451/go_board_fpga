@@ -43,7 +43,7 @@ class Top(Elaboratable):
                     break
             return resources
 
-        m.submodules.blinky = main = Main()
+        m.submodules.main = main = Main()
 
         for li, led in enumerate([res.o for res in get_all_resources("led")]):
             m.d.comb += led.eq(main.leds[li])
