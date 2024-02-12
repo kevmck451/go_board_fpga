@@ -8,13 +8,25 @@ from amaranth_boards.nandland_go import NandlandGoPlatform
 
 class Main(wiring.Component):
     def __init__(self):
-        leds: Out(4)
-        buttons: In(4)
+        self.leds = Signal(4)
+        self.buttons = Signal(4)
+
 
     def elaborate(self, platform):
         m = Module()
 
-        m.d.comb += self.leds.eq(Cat(self.buttons[0] & self.buttons[1], 0, 0, 0))
+        # LED 1 if button 1 and 2 are pressed 
+        m.d.comb += self.leds[0].eq(self.buttons[0] & self.buttons[1])
+
+        # LED 2 if button 1 or 2 are pressed 
+        m.d.comb += self.leds[1].eq(self.buttons[0] | self.buttons[1])
+
+        # LED 3 if buttons 3 xor 4 pressed 
+        m.d.comb += self.leds[2].eq(self.buttons[2] ^ self.buttons[3])
+
+        # LED 4 if buttons 3 nand 4 pressed
+        m.d.comb += self.leds[3].eq(~(self.buttons[2] & self.buttons[3]))
+
 
         return m
 

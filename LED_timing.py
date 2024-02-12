@@ -6,9 +6,10 @@ from amaranth.lib.wiring import In, Out
 from amaranth.build import ResourceError
 from amaranth_boards.nandland_go import NandlandGoPlatform
 
-class Blinky(wiring.Component):
-    leds: Out(4)
-    buttons: In(4)
+class Main(wiring.Component):
+    def __init__(self):
+        self.leds = Signal(4)
+        self.buttons = Signal(4)
 
     def elaborate(self, platform):
         m = Module()
@@ -39,12 +40,12 @@ class Top(Elaboratable):
                     break
             return resources
 
-        m.submodules.blinky = blinky = Blinky()
+        m.submodules.main = main = Main()
 
         for li, led in enumerate([res.o for res in get_all_resources("led")]):
-            m.d.comb += led.eq(blinky.leds[li])
+            m.d.comb += led.eq(main.leds[li])
         for bi, button in enumerate([res.i for res in get_all_resources("button")]):
-            m.d.comb += blinky.buttons[bi].eq(button)
+            m.d.comb += main.buttons[bi].eq(button)
 
         return m
 
