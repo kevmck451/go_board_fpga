@@ -7,20 +7,60 @@ from amaranth.build import ResourceError
 from amaranth_boards.nandland_go import NandlandGoPlatform
 
 class Main(wiring.Component):
-    leds: Out(4)
-    buttons: In(4)
+    def __init__(self):
+
+        # This works, but can only be treated as group and cant be accessed individually
+        # self.leds = Out(4)
+        # self.buttons = In(4)
+
+        # This works for both group and individual:
+        self.leds = Signal(4)
+        self.buttons = Signal(4)
+
+        # You can also define things individually if needed:
+        # self.led0 = Signal(1)
+        # self.led1 = Signal(1)
+        # self.led2 = Signal(1)
+        # self.led3 = Signal(1)
+        # self.button0 = Signal(1)
+        # self.button1 = Signal(1)
+        # self.button2 = Signal(1)
+        # self.button3 = Signal(1)
 
     def elaborate(self, platform):
         m = Module()
 
+        # Example 1
+        # -----------------------------------------
         # All LEDs on
         # m.d.comb += self.leds.eq(0b1111)
 
+        # Could also be done like this:
+        # m.d.comb += self.leds[0].eq(0b1)
+        # m.d.comb += self.leds[1].eq(0b1)
+        # m.d.comb += self.leds[2].eq(0b1)
+        # m.d.comb += self.leds[3].eq(0b1)
+
+        # Example 2
+        # -----------------------------------------
         # Button 1 turns on all LEDs
         # m.d.comb += self.leds.eq(Cat(self.buttons[0], self.buttons[0], self.buttons[0], self.buttons[0]))
-        
+
+        # Could also be done like this:
+        # m.d.comb += self.leds[0].eq(self.buttons[0])
+        # m.d.comb += self.leds[1].eq(self.buttons[0])
+        # m.d.comb += self.leds[2].eq(self.buttons[0])
+        # m.d.comb += self.leds[3].eq(self.buttons[0])
+
+
+        # Example 3
+        # -----------------------------------------
         # Each button turns on related LED
-        m.d.comb += self.leds.eq(Cat(self.buttons[0], self.buttons[1], self.buttons[2], self.buttons[3]))
+        # m.d.comb += self.leds.eq(Cat(self.buttons[0], self.buttons[1], self.buttons[2], self.buttons[3]))
+
+        # Could also be done like this:
+        m.d.comb += self.leds.eq(self.buttons)
+
 
         return m
 

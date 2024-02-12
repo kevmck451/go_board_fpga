@@ -7,8 +7,9 @@ from amaranth.build import ResourceError
 from amaranth_boards.nandland_go import NandlandGoPlatform
 
 class Main(wiring.Component):
-    leds: Out(4)
-    buttons: In(4)
+    def __init__(self):
+        leds: Out(4)
+        buttons: In(4)
 
     def elaborate(self, platform):
         m = Module()
