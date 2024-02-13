@@ -6,6 +6,9 @@ from amaranth.lib.wiring import In, Out
 from amaranth.build import ResourceError
 from amaranth_boards.nandland_go import NandlandGoPlatform
 
+import seven_seg_logic
+
+
 class Main(wiring.Component):
     def __init__(self, platform):
         self.leds = Signal(4)
@@ -21,58 +24,16 @@ class Main(wiring.Component):
         m = Module()
 
         # 7 Seg Display All Lit
-        m.d.comb += self.segments_1.eq(0b1111111)  
-        m.d.comb += self.segments_2.eq(0b1111111) 
-
-        # 1
-        # m.d.comb += self.segments_1.eq(0b0110000)  
-
-        # 2
-        # m.d.comb += self.segments_1.eq(0b1101101)  
-
-        # 3
-        # m.d.comb += self.segments_1.eq(0b1111001)  
-
-        # 4
-        # m.d.comb += self.segments_1.eq(0b0110011)  
-
-        # 5
-        # m.d.comb += self.segments_1.eq(0b1011011)  
-
-        # 6
-        # m.d.comb += self.segments_1.eq(0b1011111)  
-
-        # 7
-        # m.d.comb += self.segments_1.eq(0b1110000)  
-
-        # 8
         # m.d.comb += self.segments_1.eq(0b1111111)  
+        # m.d.comb += self.segments_2.eq(0b1111111) 
 
-        # 9
-        # m.d.comb += self.segments_1.eq(0b1110011)  
-
-        # A
-        # m.d.comb += self.segments_1.eq(0b1110111)  
-
-        # B
-        # m.d.comb += self.segments_1.eq(0b0011111)  
-
-        # C
-        # m.d.comb += self.segments_1.eq(0b1001110)  
-
-        # D
-        # m.d.comb += self.segments_1.eq(0b0111101)  
-
-        # E
-        # m.d.comb += self.segments_1.eq(0b1001111)  
-
-        # F
-        # m.d.comb += self.segments_1.eq(0b1000111)  
-
-
-
+        counter = 0
         # Each button turns on related LED
-        m.d.comb += self.leds.eq(self.buttons)
+        # m.d.comb += self.leds.eq(self.buttons)
+        with m.If(self.buttons[2] == 1):
+            m.d.comb += 
+
+
 
         return m
 
