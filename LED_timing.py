@@ -18,7 +18,8 @@ class Main(wiring.Component):
         timer = Signal(range(int(clk_freq//4)), reset=int(clk_freq//4) - 1)
         flops = Signal(len(self.leds))
 
-        m.d.comb += self.leds.eq(flops ^ self.buttons)
+        # m.d.comb += self.leds.eq(flops ^ self.buttons)
+        m.d.comb += self.leds.eq(flops)
         with m.If(timer == 0):
             m.d.sync += timer.eq(timer.reset)
             m.d.sync += flops.eq(~flops)
